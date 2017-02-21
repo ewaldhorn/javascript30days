@@ -8,5 +8,47 @@
     </head>
     <body>
         <div>Day 1 of the JavaScript 30 Days Tutorials</div>
+        <div class="keys">
+          <div data-key="65" class="key">
+            <kbd>A</kbd>
+            <span class="sound">clap</span>
+          </div>
+          <div data-key="83" class="key">
+            <kbd>S</kbd>
+            <span class="sound">hihat</span>
+          </div>
+          <div data-key="68" class="key">
+            <kbd>D</kbd>
+            <span class="sound">kick</span>
+          </div>
+        </div>
+
+        <audio data-key="65" src="../soundfiles/clap.wav"></audio>
+        <audio data-key="83" src="../soundfiles/hihat.wav"></audio>
+        <audio data-key="68" src="../soundfiles/kick.wav"></audio>
+
+        <script>
+          window.addEventListener('keydown', function(event){
+            const audio = document.querySelector(`audio[data-key="${event.keyCode}"]`);
+            const key = document.querySelector(`.key[data-key="${event.keyCode}"]`);
+            if (!audio) return; // no sound, so just do nothing
+
+            audio.currentTime = 0; // rewind to start
+            audio.play();
+
+            // now make the key "pop"
+            key.classList.add("playing");
+          });
+
+          function removeTransition(event) {
+            if (event.propertyName !== 'transform') return; // only bother to unpop key when the transform is completed
+
+            this.classList.remove('playing');
+          }
+
+          const keys = document.querySelectorAll('.key');
+          keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+
+        </script>
     </body>
 </html>
