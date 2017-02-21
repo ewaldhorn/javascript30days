@@ -28,7 +28,7 @@
         <audio data-key="68" src="../soundfiles/kick.wav"></audio>
 
         <script>
-          window.addEventListener('keydown', function(event){
+          function playSoundListener(event){
             const audio = document.querySelector(`audio[data-key="${event.keyCode}"]`);
             const key = document.querySelector(`.key[data-key="${event.keyCode}"]`);
             if (!audio) return; // no sound, so just do nothing
@@ -38,7 +38,7 @@
 
             // now make the key "pop"
             key.classList.add("playing");
-          });
+          }
 
           function removeTransition(event) {
             if (event.propertyName !== 'transform') return; // only bother to unpop key when the transform is completed
@@ -49,6 +49,7 @@
           const keys = document.querySelectorAll('.key');
           keys.forEach(key => key.addEventListener('transitionend', removeTransition));
 
+          window.addEventListener('keydown', playSoundListener);
         </script>
     </body>
 </html>
